@@ -11,7 +11,7 @@ using AutoMapper;
 namespace Contactos.Services
 {
     public interface ITelefonoService{
-        IEnumerable<TelefonoDTO> GetTelefono(long telefono);
+        Task<IEnumerable<TelefonoDTO>> GetTelefono(long telefono);
 
         Task<int> CreateTelefono(TelefonoDTO telefono);
     }
@@ -34,9 +34,12 @@ namespace Contactos.Services
             return await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<TelefonoDTO> GetTelefono(long telefono)
+        public async Task<IEnumerable<TelefonoDTO>> GetTelefono(long telefono)
         {
-            var telefonoEncontrado = _context.Telefonos.Where(t => t.NroTelefono == telefono).ToList();
+            var telefonoEncontrado = await _context.Telefonos
+                .Include(t => t.Contactos)
+                .Where(t => t.NroTelefono == telefono)
+                .ToListAsync();
             var dto = _mapper.Map<IEnumerable<TelefonoDTO>>(telefonoEncontrado);
 
             return dto;

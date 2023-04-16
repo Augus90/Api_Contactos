@@ -23,8 +23,9 @@ namespace Contactos.Controllers
         }
 
         [HttpGet("{telefono}")]
-        public IActionResult GetTelefono(long telefono){
-            return Ok(_telefonoService.GetTelefono(telefono));
+        public async Task<IActionResult> GetTelefono(long telefono){
+            var contacto = await _telefonoService.GetTelefono(telefono);
+            return Ok(contacto);
         }
 
         [HttpPost]

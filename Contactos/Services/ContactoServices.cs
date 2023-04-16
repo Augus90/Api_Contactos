@@ -11,7 +11,7 @@ using AutoMapper;
 namespace Contactos.Services
 {
     public interface IContactoService{
-        IEnumerable<ContactoDTO> GetAll();
+        Task<IEnumerable<ContactoDTO>> GetAll();
 
         IEnumerable<ContactoDTO> GetNames(string nombre);
 
@@ -53,8 +53,8 @@ namespace Contactos.Services
             return -1;
         }
 
-        public IEnumerable<ContactoDTO> GetAll(){
-            var contactos = _dbContext.Contactos.ToList();
+        public async Task<IEnumerable<ContactoDTO>> GetAll(){
+            var contactos = await _dbContext.Contactos.ToListAsync();
             var contactosList = _mapper.Map<IEnumerable<ContactoDTO>>(contactos);
 
             return contactosList;

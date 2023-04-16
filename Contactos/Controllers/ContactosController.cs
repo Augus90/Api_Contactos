@@ -25,8 +25,8 @@ namespace Contactos.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll(){
-            return Ok(_contactoService.GetAll());
+        public async Task<IActionResult> GetAll(){
+            return Ok(await _contactoService.GetAll());
         }
 
         [HttpGet("{name}")]

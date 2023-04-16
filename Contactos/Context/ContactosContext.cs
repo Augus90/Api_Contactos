@@ -38,6 +38,10 @@ namespace Contactos.Context
                 entity.Property(e => e.TipoDocumento)
                     .HasColumnType("varchar(30)")
                     .HasColumnName("Tipo_documento");
+
+                entity.HasMany(e => e.Telefonos)
+                    .WithOne(e => e.Contactos)
+                    .HasForeignKey(e => e.ContactosId);
             });
 
             modelBuilder.Entity<Telefono>(entity =>
@@ -56,9 +60,9 @@ namespace Contactos.Context
                     .HasColumnType("varchar(30)")
                     .HasColumnName("Tipo_telefono");
 
-                entity.HasOne(d => d.Contactos)
-                    .WithMany(p => p.Telefonos)
-                    .HasForeignKey(d => d.ContactosId);
+                // entity.HasOne(d => d.Contactos)
+                //     .WithMany(p => p.Telefonos)
+                //     .HasForeignKey(d => d.ContactosId);
             });
 
             modelBuilder.Entity<Usuario>(entity =>
