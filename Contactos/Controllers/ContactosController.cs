@@ -15,6 +15,7 @@ namespace Contactos.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ContactosController : ControllerBase
     {
         private IContactoService _contactoService;

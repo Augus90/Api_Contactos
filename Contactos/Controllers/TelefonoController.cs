@@ -13,6 +13,7 @@ namespace Contactos.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class TelefonoController : ControllerBase
     {
         private ITelefonoService _telefonoService;

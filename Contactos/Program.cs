@@ -25,52 +25,52 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddScoped<IContactoService, ContactoServices>();
 builder.Services.AddScoped<ITelefonoService, TelefonoServices>();
-builder.Services.AddScoped<IUsuariosService, UsuarioServices>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 //---------------------------------------JWT Swagger-----------------------------
-//builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen();
 
-// builder.Services.AddSwaggerGen(option =>
-// {
-//     option.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "JWT", Version ="v1" });
-//     option.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-//     {
-//         In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-//         Description = "Ingrese Token",
-//         Name = "Authorization",
-//         Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
-//         BearerFormat = "JWT",
-//         Scheme ="Bearer"
-//     });
-//     option.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement()
-//         {
-//         {new OpenApiSecurityScheme
-//         {
-//              Reference = new OpenApiReference
-//              { Type = ReferenceType.SecurityScheme,
-//               Id = "Bearer"
-//              }
-//         },
-//         new string[]{}
+builder.Services.AddSwaggerGen(option =>
+{
+    option.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "JWT", Version ="v1" });
+    option.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Ingrese Token",
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme ="Bearer"
+    });
+    option.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement()
+        {
+        {new OpenApiSecurityScheme
+        {
+             Reference = new OpenApiReference
+             { Type = ReferenceType.SecurityScheme,
+              Id = "Bearer"
+             }
+        },
+        new string[]{}
 
-//         }
-//     });
-// });
+        }
+    });
+});
 //--------------------------------------------------------------------------------
 //-----------------------------JWT---------------------------------------------
-// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-// {
-//     options.RequireHttpsMetadata = false;
-//     options.SaveToken = true;
-//     options.TokenValidationParameters = new TokenValidationParameters()
-//     {
-//         ValidateIssuer = true,
-//         ValidateAudience = true,
-//         ValidAudience = builder.Configuration["Jwt:Audience"],
-//         ValidIssuer = builder.Configuration["Jwt:Issuer"],
-//         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-//     };
-// });
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
 
 //----------------------------------------------------------------
 
