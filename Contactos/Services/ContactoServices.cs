@@ -13,7 +13,7 @@ namespace Contactos.Services
     public interface IContactoService{
         Task<IEnumerable<ContactoDTO>> GetAll();
 
-        IEnumerable<ContactoDTO> GetNames(string nombre);
+        Task<IEnumerable<ContactoDTO>> GetNames(string nombre);
 
         Task<int> Create(ContactoDTO contactoDTO);
 
@@ -41,9 +41,9 @@ namespace Contactos.Services
 
         public async Task<int> Delete(long DNI)
         {
-            var contacto = _dbContext.Contactos.Where(c => c.NroDocumento == DNI).FirstOrDefault();
-
-            Console.WriteLine(contacto);
+            var contacto = _dbContext.Contactos
+                .Where(c => c.NroDocumento == DNI)
+                .FirstOrDefault();
             
             if(contacto != null){
                 _dbContext.Remove(contacto);
@@ -54,14 +54,21 @@ namespace Contactos.Services
         }
 
         public async Task<IEnumerable<ContactoDTO>> GetAll(){
-            var contactos = await _dbContext.Contactos.ToListAsync();
+            var contactos = await _dbContext.Contactos
+                .Include(x => x.Telefonos)
+                .ToListAsync();
+
             var contactosList = _mapper.Map<IEnumerable<ContactoDTO>>(contactos);
 
             return contactosList;
         }
 
-        public IEnumerable<ContactoDTO> GetNames(string nombre){
-            var contactoEncontrado = _dbContext.Contactos.Where(c => c.Nombre == nombre).ToList();
+        public async Task<IEnumerable<ContactoDTO>> GetNames(string nombre){
+            var contactoEncontrado = await _dbContext.Contactos
+                .Include(x => x.Telefonos)
+                .Where(c => c.Nombre == nombre)
+                .ToListAsync();
+
             var contacto = _mapper.Map<IEnumerable<ContactoDTO>>(contactoEncontrado);
 
             return contacto;

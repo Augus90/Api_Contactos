@@ -29,9 +29,16 @@ namespace Contactos.Controllers
             return Ok(await _contactoService.GetAll());
         }
 
-        [HttpGet("{name}")]
-        public IActionResult GetNombre(string name){
-            return Ok(_contactoService.GetNames(name));
+        [HttpGet("{nombre}")]
+        public async Task<IActionResult> GetNombre(string nombre){
+            
+            var resultado = await _contactoService.GetNames(nombre);
+            
+            if(resultado.Count() > 0){
+                return Ok(resultado);
+            }
+
+            return NotFound();
         }
 
         [HttpPost]

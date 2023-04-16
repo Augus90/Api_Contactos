@@ -23,66 +23,10 @@ namespace Contactos.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Contacto>(entity =>
-            {
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Apellido).HasColumnType("varchar(50)");
-
-                entity.Property(e => e.Nombre).HasColumnType("varchar(50)");
-
-                entity.Property(e => e.NroDocumento)
-                    .HasColumnType("int")
-                    .HasColumnName("Nro_documento");
-
-                entity.Property(e => e.TipoDocumento)
-                    .HasColumnType("varchar(30)")
-                    .HasColumnName("Tipo_documento");
-
-                entity.HasMany(e => e.Telefonos)
-                    .WithOne(e => e.Contactos)
-                    .HasForeignKey(e => e.ContactosId);
-            });
-
-            modelBuilder.Entity<Telefono>(entity =>
-            {
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.ContactosId)
-                    .HasColumnType("int")
-                    .HasColumnName("Contactos_id");
-
-                entity.Property(e => e.NroTelefono)
-                    .HasColumnType("int")
-                    .HasColumnName("Nro_telefono");
-
-                entity.Property(e => e.TipoTelefono)
-                    .HasColumnType("varchar(30)")
-                    .HasColumnName("Tipo_telefono");
-
-                // entity.HasOne(d => d.Contactos)
-                //     .WithMany(p => p.Telefonos)
-                //     .HasForeignKey(d => d.ContactosId);
-            });
-
-            modelBuilder.Entity<Usuario>(entity =>
-            {
-                entity.ToTable("Usuario");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Password)
-                    .HasColumnType("varchar(50)")
-                    .HasColumnName("password");
-
-                entity.Property(e => e.Usuario1)
-                    .HasColumnType("varchar(50)")
-                    .HasColumnName("usuario");
-            });
-
-            OnModelCreatingPartial(modelBuilder);
+            modelBuilder.Entity<Contacto>()
+                .HasMany(c => c.Telefonos)
+                .WithOne(t => t.Contactos)
+                .HasForeignKey(f => f.ContactosId);
         }
-
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

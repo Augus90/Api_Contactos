@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Contactos.Entities
 {
-    public partial class Contacto
+    public class Contacto
     {
         public Contacto()
         {
-            Telefonos = new HashSet<Telefono>();
+            Telefonos = new List<Telefono>();
         }
 
+        [Key]
         public long Id { get; set; }
         public string Nombre { get; set; } = null!;
         public string? Apellido { get; set; }
         public string? TipoDocumento { get; set; }
         public long NroDocumento { get; set; }
 
-        public virtual ICollection<Telefono> Telefonos { get; set; }
+        public List<Telefono>? Telefonos { get; set; }
     }
 }

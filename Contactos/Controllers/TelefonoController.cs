@@ -22,20 +22,46 @@ namespace Contactos.Controllers
             _telefonoService = telefonoService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get(){
+            return Ok(await _telefonoService.GetAll());
+        }
+
         [HttpGet("{telefono}")]
         public async Task<IActionResult> GetTelefono(long telefono){
             var contacto = await _telefonoService.GetTelefono(telefono);
             return Ok(contacto);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> PostTelefono([FromBody] TelefonoDTO telefono){
-            var result = await _telefonoService.CreateTelefono(telefono);
+        // [HttpPost]
+        // public async Task<IActionResult> PostTelefono([FromBody] TelefonoDTO telefono){
+        //     var result = await _telefonoService.CreateTelefono(telefono);
+        //     if(result > 0){
+        //         return StatusCode(201);
+        //     }
+
+        //     return StatusCode(400);
+        // }
+
+        [HttpPost("{dni}")]
+        public async Task<IActionResult> PostTelefonoPotDni(long dni,[FromBody] TelefonoDTO telefono){
+            var result = await _telefonoService.CreateByDni(dni,telefono);
             if(result > 0){
                 return StatusCode(201);
             }
 
             return StatusCode(400);
+        }
+
+        [HttpDelete("{telefono}")]
+        public async Task<ActionResult<TelefonoDTO>> Delete(long telefono){
+            var result = await _telefonoService.DeleteTelefono(telefono);
+
+            if(result != null){
+                return Ok(result);
+            }
+            
+            return NotFound(null);
         }
 
     }
