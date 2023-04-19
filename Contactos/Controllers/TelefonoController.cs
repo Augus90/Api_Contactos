@@ -44,7 +44,7 @@ namespace Contactos.Controllers
         // }
 
         [HttpPost("{dni}")]
-        public async Task<IActionResult> PostTelefonoPotDni(long dni,[FromBody] TelefonoDTO telefono){
+        public async Task<IActionResult> PostTelefonoPorDni(long dni,[FromBody] TelefonoDTO telefono){
             var result = await _telefonoService.CreateByDni(dni,telefono);
             if(result > 0){
                 return StatusCode(201);

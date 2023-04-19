@@ -22,6 +22,7 @@ namespace Contactos.Controllers
     public class LoginController : ControllerBase
     {
         private IUsuarioService _usuarioService;
+        // Nos permire trabajar con el archivo appseting.json
         public IConfiguration _configuration ;
 
         public LoginController(IConfiguration configuration, IUsuarioService usuarioService){

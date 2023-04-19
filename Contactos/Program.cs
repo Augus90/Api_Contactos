@@ -17,12 +17,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Cofiguracion de la base de datos
 builder.Services.AddDbContext<ContactosContext>(op => 
-    op.UseSqlite(builder.Configuration.GetConnectionString("Database"))
+    op.UseSqlServer(builder.Configuration.GetConnectionString("Database"))
 );
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+// Inyeccion de dependencias de los servicios
 builder.Services.AddScoped<IContactoService, ContactoServices>();
 builder.Services.AddScoped<ITelefonoService, TelefonoServices>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
