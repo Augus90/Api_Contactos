@@ -14,6 +14,8 @@ namespace Contactos.Entities
 
         [Key]
         public long Id { get; set; }
+        [ForeignKey("Usuario")]
+        public long UserId { get; set;}
         public string Nombre { get; set; } = null!;
         public string? Apellido { get; set; }
         public string? TipoDocumento { get; set; }

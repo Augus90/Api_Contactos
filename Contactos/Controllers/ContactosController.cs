@@ -24,6 +24,20 @@ namespace Contactos.Controllers
             _contactoService = contactoService;
         }
 
+        [HttpGet("Autorization")]
+        public async Task<IActionResult> GetName(){
+            var userId = User.Claims.FirstOrDefault(u => u.Type.ToString().Equals("UserName", StringComparison.OrdinalIgnoreCase));
+
+            var result = await _contactoService.GetNames(userId.Value);
+
+            if(result.Count() > 0){
+
+                return Ok(result);
+            }
+
+            return BadRequest("No user");
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAll(){
             return Ok(await _contactoService.GetAll());
