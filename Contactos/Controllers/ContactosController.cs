@@ -24,23 +24,18 @@ namespace Contactos.Controllers
             _contactoService = contactoService;
         }
 
-        [HttpGet("Autorization")]
-        public async Task<IActionResult> GetName(){
-            var userId = User.Claims.FirstOrDefault(u => u.Type.ToString().Equals("UserName", StringComparison.OrdinalIgnoreCase));
-
-            var result = await _contactoService.GetNames(userId.Value);
-
-            if(result.Count() > 0){
-
-                return Ok(result);
-            }
-
-            return BadRequest("No user");
+        [NonAction]
+        public int ObtenerUsuario(){
+            var userId = User.Claims.FirstOrDefault(u => u.Type.ToString().Equals("UserId", StringComparison.OrdinalIgnoreCase));
+            return int.Parse(userId.Value);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll(){
-            return Ok(await _contactoService.GetAll());
+            // return Ok(await _contactoService.GetNames(GetName()));
+            var userId = ObtenerUsuario();
+
+            return Ok(await _contactoService.GetAll(userId));
         }
 
         [HttpGet("{nombre}")]
@@ -57,7 +52,9 @@ namespace Contactos.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]ContactoDTO contacto){
-            var result = await _contactoService.Create(contacto);
+            var userId = ObtenerUsuario();
+
+            var result = await _contactoService.Create(contacto, userId);
 
             if(result > 0){
                 return StatusCode(201);

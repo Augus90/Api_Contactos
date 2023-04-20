@@ -3,6 +3,7 @@ using System;
 using Contactos.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Contactos.Migrations
 {
     [DbContext(typeof(ContactosContext))]
-    partial class ContactosContextModelSnapshot : ModelSnapshot
+    [Migration("20230419222817_Agrego user id")]
+    partial class Agregouserid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.5");
@@ -40,8 +42,6 @@ namespace Contactos.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Contactos");
                 });
@@ -87,17 +87,6 @@ namespace Contactos.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("Contactos.Entities.Contacto", b =>
-                {
-                    b.HasOne("Contactos.Entities.Usuario", "Usuarios")
-                        .WithMany("Contactos")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Usuarios");
-                });
-
             modelBuilder.Entity("Contactos.Entities.Telefono", b =>
                 {
                     b.HasOne("Contactos.Entities.Contacto", "Contactos")
@@ -110,11 +99,6 @@ namespace Contactos.Migrations
             modelBuilder.Entity("Contactos.Entities.Contacto", b =>
                 {
                     b.Navigation("Telefonos");
-                });
-
-            modelBuilder.Entity("Contactos.Entities.Usuario", b =>
-                {
-                    b.Navigation("Contactos");
                 });
 #pragma warning restore 612, 618
         }

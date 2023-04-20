@@ -3,6 +3,7 @@ using System;
 using Contactos.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Contactos.Migrations
 {
     [DbContext(typeof(ContactosContext))]
-    partial class ContactosContextModelSnapshot : ModelSnapshot
+    [Migration("20230419235958_Agrego lista de contactos")]
+    partial class Agregolistadecontactos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.5");
@@ -39,9 +41,12 @@ namespace Contactos.Migrations
                     b.Property<long>("UserId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<long?>("UsuarioId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Contactos");
                 });
@@ -89,13 +94,9 @@ namespace Contactos.Migrations
 
             modelBuilder.Entity("Contactos.Entities.Contacto", b =>
                 {
-                    b.HasOne("Contactos.Entities.Usuario", "Usuarios")
+                    b.HasOne("Contactos.Entities.Usuario", null)
                         .WithMany("Contactos")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Usuarios");
+                        .HasForeignKey("UsuarioId");
                 });
 
             modelBuilder.Entity("Contactos.Entities.Telefono", b =>

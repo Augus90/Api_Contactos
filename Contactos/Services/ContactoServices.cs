@@ -11,11 +11,11 @@ using AutoMapper;
 namespace Contactos.Services
 {
     public interface IContactoService{
-        Task<IEnumerable<ContactoDTO>> GetAll();
+        Task<IEnumerable<ContactoDTO>> GetAll(int userId);
 
         Task<IEnumerable<ContactoDTO>> GetNames(string nombre);
 
-        Task<int> Create(ContactoDTO contactoDTO);
+        Task<int> Create(ContactoDTO contactoDTO, int userId);
 
         Task<int> Delete(long DNI);
     }
@@ -30,9 +30,10 @@ namespace Contactos.Services
             _mapper = mapper;
         }
 
-        public async Task<int> Create(ContactoDTO contactoDTO)
+        public async Task<int> Create(ContactoDTO contactoDTO, int userId)
         {
             var contacto = _mapper.Map<Contacto>(contactoDTO);
+            contacto.UserId = userId;
             _dbContext.Contactos.Add(contacto);
 
             return await _dbContext.SaveChangesAsync();
@@ -53,9 +54,11 @@ namespace Contactos.Services
             return -1;
         }
 
-        public async Task<IEnumerable<ContactoDTO>> GetAll(){
+        public async Task<IEnumerable<ContactoDTO>> GetAll(int userId){
             var contactos = await _dbContext.Contactos
                 .Include(x => x.Telefonos)
+                .Include(x => x.Usuarios)
+                .Where(x => x.UserId == userId)
                 .ToListAsync();
 
             var contactosList = _mapper.Map<IEnumerable<ContactoDTO>>(contactos);

@@ -27,6 +27,11 @@ namespace Contactos.Context
                 .HasMany(c => c.Telefonos)
                 .WithOne(t => t.Contactos)
                 .HasForeignKey(f => f.ContactosId);
+
+            modelBuilder.Entity<Usuario>()
+                .HasMany(c => c.Contactos)
+                .WithOne(t => t.Usuarios)
+                .HasForeignKey(f => f.UserId);
         }
     }
 }

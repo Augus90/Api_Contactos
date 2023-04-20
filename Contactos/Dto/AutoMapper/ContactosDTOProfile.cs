@@ -13,6 +13,7 @@ namespace Contactos.Dto.AutoMapper
         public ContactosDTOProfile(){
             CreateMap<Contacto, ContactoDTO>().ReverseMap();
             CreateMap<Telefono, TelefonoDTO>().ReverseMap();
+            CreateMap<Telefono, TelefonoContactoDTO>().ReverseMap();
             CreateMap<Usuario, UsuarioDTO>().ReverseMap();
         }
     }
