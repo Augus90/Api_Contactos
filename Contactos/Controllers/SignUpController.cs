@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using Contactos.Services;
 using Contactos.Entities;
 using Contactos.Dto;
@@ -30,11 +31,14 @@ namespace Contactos.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> SignUp([FromBody] UsuarioDTO usuario){
+        public async Task<ActionResult> SignUp([FromBody] UsuarioDTO usuario){
             var result = await _usuarioService.Save(usuario);
+
             
             if(result > 0){
-                return StatusCode(201);
+                var returnToken = _usuarioService.GenerateToken(_usuarioService.GetUser(usuario));
+
+                return Ok(returnToken);
             }
 
             return BadRequest();

@@ -14,6 +14,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
+
 
 namespace Contactos.Controllers
 {
@@ -29,6 +31,27 @@ namespace Contactos.Controllers
             _usuarioService = usuarioService;
         }
 
+        // [NonAction]
+        // public string GenerateToken(Usuario usuarioActual){
+        //     var claims = new[]{
+        //         new Claim(JwtRegisteredClaimNames.Sub,_configuration["Jwt:Subject"]),
+        //         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        //         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+        //         new Claim("UserId", usuarioActual.Id.ToString()),
+        //         new Claim("UserName", usuarioActual.Usuario1),
+        //     };
+        //     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+        //     var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        //     var token = new JwtSecurityToken(
+        //     _configuration["Jwt:Issuer"],
+        //     _configuration["Jwt:Audience"],
+        //     claims,
+        //     expires: DateTime.UtcNow.AddMinutes(60),
+        //     signingCredentials: signIn);
+        //     var tokenResult = new JwtSecurityTokenHandler().WriteToken(token);
+        //     return tokenResult;
+        // }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult> Post(UsuarioDTO usuario){
@@ -38,23 +61,9 @@ namespace Contactos.Controllers
                 return BadRequest("");
             }
 
-            var claims = new[]{
-                new Claim(JwtRegisteredClaimNames.Sub,_configuration["Jwt:Subject"]),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                new Claim("UserId", usuarioActual.Id.ToString()),
-                new Claim("UserName", usuarioActual.Usuario1),
-            };
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(
-            _configuration["Jwt:Issuer"],
-            _configuration["Jwt:Audience"],
-            claims,
-            expires: DateTime.UtcNow.AddMinutes(10),
-            signingCredentials: signIn);
+            var returnToken = _usuarioService.GenerateToken(usuarioActual);
 
-            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+            return Ok(JsonSerializer.Serialize(returnToken));
             
         }
 

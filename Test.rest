@@ -1,0 +1,41 @@
+@BaseUrl = http://localhost:5159/api
+@key = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiJjYjYzN2IxNC02NGQ1LTQ4N2YtYmM4ZC0yMzRkMTIwZTg5NTgiLCJpYXQiOiIyMS80LzIwMjMgMDA6MTI6MTIiLCJVc2VySWQiOiIxIiwiVXNlck5hbWUiOiJBZG1pbiIsImV4cCI6MTY4MjAzOTUzMiwiaXNzIjoiQUJDWFlaIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MTMyIn0.pWS3Qdm_RUL143wCOB8B9nKCycbHPd-sPhoDvTilolo
+
+# Login de usuario
+
+POST {{BaseUrl}}/Login HTTP/1.1
+Content-Type: application/json
+
+{
+    "usuario1": "Admin",
+    "password": "Password"
+}
+
+###
+
+GET {{BaseUrl}}/contactos HTTP/1.1
+Authorization: Bearer {{key}}
+
+### 
+
+POST {{BaseUrl}}/contactos HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{key}}
+
+{
+    "nombre": "Monica",
+    "apellido": "Gueller",
+    "tipoDocumento": "DNI",
+    "nroDocumento": 11223366,
+    "telefonos": [
+        {
+        "tipoTelefono": "Movil",
+        "nroTelefono": 1312313123
+        }
+    ]
+}
+
+###
+
+DELETE {{BaseUrl}}/contactos/11223366 HTTP/1.1
+Authorization: Bearer {{key}}

@@ -10,7 +10,7 @@ namespace Contactos.Dto
     {
         public string? TipoTelefono { get; set; }
         public long NroTelefono { get; set; }
-        public virtual Contacto? Contactos { get; set; }
+        public virtual SoloContactoDTO? Contactos { get; set; }
 
     }
 }

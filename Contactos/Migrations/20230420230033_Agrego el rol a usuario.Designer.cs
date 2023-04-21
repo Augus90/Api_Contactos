@@ -3,6 +3,7 @@ using System;
 using Contactos.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Contactos.Migrations
 {
     [DbContext(typeof(ContactosContext))]
-    partial class ContactosContextModelSnapshot : ModelSnapshot
+    [Migration("20230420230033_Agrego el rol a usuario")]
+    partial class Agregoelrolausuario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.5");

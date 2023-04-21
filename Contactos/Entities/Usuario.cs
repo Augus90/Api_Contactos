@@ -14,6 +14,7 @@ namespace Contactos.Entities
         public long Id { get; set; }
         public string Usuario1 { get; set; } = null!;
         public string Password { get; set; } = null!;
+        public string Rol {get; set;} = "usuario";
         public List<Contacto>? Contactos {get; set;}
     }
 }
